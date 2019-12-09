@@ -1,24 +1,36 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Personal from "../views/Personal.vue";
+import Public from "../views/Public.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
+  // 根目录重定向
   {
     path: "/",
     name: "home",
-    component: Home
+    redirect: "/personal"
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "/personal",
+    name: "personal",
+    component: Personal
+  },
+  {
+    path: "/public",
+    name: "public",
+    component: Public
   }
+  // {
+  //   path: "/about",
+  //   name: "about",
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ "../views/About.vue")
+  // }
 ];
 
 const router = new VueRouter({
