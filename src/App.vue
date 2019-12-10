@@ -88,6 +88,44 @@
   </div>
 </template>
 
+<script>
+import "./style/common.less";
+
+export default {
+  data() {
+    return {
+      isCollapsed: false,
+      leftMargin: 240
+    };
+  },
+  computed: {
+    rotateIcon() {
+      return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
+    },
+    menuitemClasses() {
+      return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
+    }
+  },
+  methods: {
+    collapsedSider() {
+      this.$refs.side1.toggleCollapse();
+      this.leftMargin === 240
+        ? (this.leftMargin = 80)
+        : (this.leftMargin = 240);
+      // this.leftMargin = 100;
+    },
+    exitLogin() {
+      // 从sessionStorage删除保存的数据
+      // sessionStorage.removeItem("userStatus");
+      this.$Message.info("请重新登录");
+      // this.$router.push({
+      //   path: "/login"
+      // });
+    }
+  }
+};
+</script>
+
 <style lang="less">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -159,41 +197,3 @@
   margin-right: 30px;
 }
 </style>
-
-<script>
-import "./style/common.less";
-
-export default {
-  data() {
-    return {
-      isCollapsed: false,
-      leftMargin: 240
-    };
-  },
-  computed: {
-    rotateIcon() {
-      return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
-    },
-    menuitemClasses() {
-      return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
-    }
-  },
-  methods: {
-    collapsedSider() {
-      this.$refs.side1.toggleCollapse();
-      this.leftMargin === 240
-        ? (this.leftMargin = 80)
-        : (this.leftMargin = 240);
-      // this.leftMargin = 100;
-    },
-    exitLogin() {
-      // 从sessionStorage删除保存的数据
-      // sessionStorage.removeItem("userStatus");
-      this.$Message.info("请重新登录");
-      // this.$router.push({
-      //   path: "/login"
-      // });
-    }
-  }
-};
-</script>

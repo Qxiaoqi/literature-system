@@ -22,21 +22,15 @@
             v-model="checkAllGroup"
             @on-change="checkAllGroupChange"
           >
-            <Checkbox label="计算机"></Checkbox>
-            <Checkbox label="工程科学"></Checkbox>
-            <Checkbox label="材料科学"></Checkbox>
-            <Checkbox label="生物与生化"></Checkbox>
-            <Checkbox label="微生物学"></Checkbox>
-            <Checkbox label="分子生物与遗传学"></Checkbox>
-            <Checkbox label="一般社会科学"></Checkbox>
-            <Checkbox label="经济与商学"></Checkbox>
-            <Checkbox label="化学"></Checkbox>
-            <Checkbox label="地球科学"></Checkbox>
-            <Checkbox label="地球科学"></Checkbox>
-            <Checkbox label="地球科学"></Checkbox>
-            <Checkbox label="气象学"></Checkbox>
-            <Checkbox label="生物学"></Checkbox>
-            <Checkbox label="数学"></Checkbox>
+            <Checkbox
+              v-for="item in categoryData"
+              :key="item.id"
+              :label="item.id"
+              :style="{
+                paddingBottom: '10px'
+              }"
+              >{{ item.value }}</Checkbox
+            >
           </CheckboxGroup>
         </div>
       </div>
@@ -56,6 +50,7 @@
         <Icon type="md-book"></Icon>
         文献列表
       </p>
+      <!-- <Button type="primary" slot="extra" size="small">上传文献</Button> -->
       <div class="results-content">
         <div class="results-line">
           <Row :gutter="32">
@@ -78,7 +73,7 @@
                   <!-- 反面 -->
                   <div class="back">
                     <ul>
-                      <li class="back-item">详情</li>
+                      <li class="back-item" @click="literatureModel = true">详情</li>
                       <li class="back-item">下载</li>
                       <li class="back-item">移除</li>
                     </ul>
@@ -210,17 +205,168 @@
             </i-col>
           </Row>
         </div>
+
+        <!-- 分页 -->
+        <div class="page-bar">
+          <Page :total="100" show-total />
+        </div>
+
+        <!-- 文献详情页弹窗 -->
+        <Modal v-model="literatureModel" title="文献详情" footer-hide>
+          <ul class="literature-model">
+            <li>标题：<span>基于门控递归单元神经网络的高速公路行程时间预测_刘松</span></li>
+            <li>作者：<span>刘松</span></li>
+            <li>来源：<span>China</span></li>
+            <li>发表时间：<span>2019.12.09</span></li>
+            <li>分类：<span>计算机科学</span></li>
+          </ul>
+        </Modal>
       </div>
     </Card>
   </div>
 </template>
 
+<script>
+// @ is an alias to /src
+import { categoryData } from "@/data/category";
+
+export default {
+  name: "personal",
+  components: {
+    // HelloWorld
+  },
+  data() {
+    return {
+      indeterminate: true,
+      checkAll: false,
+      checkAllGroup: [1],
+      literatureModel: false,
+      categoryData: categoryData,
+      literatureData: [
+        {
+          literatureId: 1001,
+          title: "基于门控递归单元神经网络的高速公路行程时间预测_刘松",
+          author: "author1",
+          source: "China",
+          time: "2019.01.01",
+          category: 1 // 一一对应22个学科
+        },
+        {
+          literatureId: 1002,
+          title: "单片机与嵌入式系统课程模块化教学方案在高职本科教育中的实施_甄久军",
+          author: "author1",
+          source: "China",
+          time: "2019.01.01",
+          category: 1 // 一一对应22个学科
+        },
+        {
+          literatureId: 1003,
+          title: "基于逆透视变换的条播作物早期作物行识别_赵学观",
+          author: "author1",
+          source: "China",
+          time: "2019.01.01",
+          category: 1 // 一一对应22个学科
+        },
+        {
+          literatureId: 1004,
+          title: "融合神经网络和指纹的可见光定位算法研究_刘冲",
+          author: "author1",
+          source: "China",
+          time: "2019.01.01",
+          category: 1 // 一一对应22个学科
+        },
+        {
+          literatureId: 1005,
+          title: "战斗机嵌入式训练系统中的智能虚拟陪练_陈斌",
+          author: "author1",
+          source: "China",
+          time: "2019.01.01",
+          category: 1 // 一一对应22个学科
+        },
+        {
+          literatureId: 1006,
+          title: "一种基于RBF神经网络实现波束形成的方法_周书宇",
+          author: "author1",
+          source: "China",
+          time: "2019.01.01",
+          category: 1 // 一一对应22个学科
+        },
+        {
+          literatureId: 1007,
+          title: "考虑区域综合能源系统拓扑特性的能源站和管线规划_徐成司",
+          author: "author1",
+          source: "China",
+          time: "2019.01.01",
+          category: 1 // 一一对应22个学科
+        },
+        {
+          literatureId: 1011,
+          title: "基于射线穿透法的GPU并行阶梯型有限差分网格生成算法_李平",
+          author: "author1",
+          source: "China",
+          time: "2019.01.01",
+          category: 12 // 一一对应22个学科
+        }
+      ]
+    };
+  },
+  computed: {
+    // 学科分类 id
+    categoryIdArray() {
+      let res = this.categoryData.map(item => {
+        return item.id;
+      });
+      return res;
+    },
+    // 学科分类 value
+    categoryValueArray() {
+      let res = this.categoryData.map(item => {
+        return item.value;
+      });
+      return res;
+    }
+  },
+  methods: {
+    handleCheckAll() {
+      // console.log(categoryData);
+      console.log(this.categoryValueArray);
+      if (this.indeterminate) {
+        this.checkAll = false;
+      } else {
+        this.checkAll = !this.checkAll;
+      }
+      this.indeterminate = false;
+
+      if (this.checkAll) {
+        this.checkAllGroup = this.categoryIdArray;
+      } else {
+        this.checkAllGroup = [];
+      }
+    },
+    checkAllGroupChange(data) {
+      if (data.length === 22) {
+        this.indeterminate = false;
+        this.checkAll = true;
+      } else if (data.length > 0) {
+        this.indeterminate = true;
+        this.checkAll = false;
+      } else {
+        this.indeterminate = false;
+        this.checkAll = false;
+      }
+    }
+  }
+};
+</script>
+
 <style lang="less" scoped>
 .condition-bar {
-  padding-bottom: 20px;
+  padding: 0 20px 20px 20px;
+  // padding-bottom: 20px;
 }
 
 .condition-title {
+  width: 50px;
   display: table-cell;
 }
 
@@ -354,51 +500,18 @@
 .literature-item:hover .flip {
   transform: rotateY(180deg);
 }
-</style>
 
-<script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
+// 分页
+.page-bar {
+  padding: 0 0 40px 30%;
+}
 
-export default {
-  name: "personal",
-  components: {
-    // HelloWorld
-  },
-  data() {
-    return {
-      indeterminate: true,
-      checkAll: false,
-      checkAllGroup: ["计算机"]
-    };
-  },
-  methods: {
-    handleCheckAll() {
-      if (this.indeterminate) {
-        this.checkAll = false;
-      } else {
-        this.checkAll = !this.checkAll;
-      }
-      this.indeterminate = false;
+// 弹窗样式
+.literature-model {
+  padding: 20px;
 
-      if (this.checkAll) {
-        this.checkAllGroup = ["计算机", "气象学", "生物学", "数学"];
-      } else {
-        this.checkAllGroup = [];
-      }
-    },
-    checkAllGroupChange(data) {
-      if (data.length === 4) {
-        this.indeterminate = false;
-        this.checkAll = true;
-      } else if (data.length > 0) {
-        this.indeterminate = true;
-        this.checkAll = false;
-      } else {
-        this.indeterminate = false;
-        this.checkAll = false;
-      }
-    }
+  li {
+    padding: 10px 0;
   }
-};
-</script>
+}
+</style>
