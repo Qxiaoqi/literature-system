@@ -52,159 +52,34 @@
       </p>
       <!-- <Button type="primary" slot="extra" size="small">上传文献</Button> -->
       <div class="results-content">
-        <div class="results-line">
-          <Row :gutter="32">
-            <i-col span="4">
-              <!-- 单个文献 -->
-              <div class="literature-item">
-                <!-- 翻转效果 -->
-                <div class="flip">
-                  <!-- 正面 -->
-                  <div class="front">
-                    <div class="front-top">
-                      <div class="collection collection-star">
-                        <img src="../assets/star.png" alt="collection" />
-                      </div>
-                    </div>
-                    <div class="front-bottom">
-                      <p>基于门控递归单元神经网络的高速公路行程时间预测_刘松</p>
-                    </div>
-                  </div>
-                  <!-- 反面 -->
-                  <div class="back">
-                    <ul>
-                      <li class="back-item" @click="literatureModel = true">详情</li>
-                      <li class="back-item">下载</li>
-                      <li class="back-item">移除</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
+        <div class="literature-content">
+          <!-- 单个文献 -->
+          <div class="literature-item" v-for="literature in literatureData" :key="literature.literatureId">
+            <!-- 翻转效果 -->
+            <div class="flip">
+              <!-- 正面 -->
+              <div class="front">
                 <div class="front-top">
                   <div class="collection collection-star">
                     <img src="../assets/star.png" alt="collection" />
                   </div>
                 </div>
                 <div class="front-bottom">
-                  <p>单片机与嵌入式系统课程模块化教学方案在高职本科教育中的实施_甄久军</p>
+                  <p>{{ literature.title }}</p>
                 </div>
               </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection collection-star">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom">
-                  <p>基于逆透视变换的条播作物早期作物行识别_赵学观</p>
-                </div>
+              <!-- 反面 -->
+              <div class="back">
+                <ul>
+                  <li class="back-item" @click="literatureModel = true">详情</li>
+                  <li class="back-item">下载</li>
+                  <li class="back-item">移除</li>
+                </ul>
               </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom">
-                  <p>融合神经网络和指纹的可见光定位算法研究_刘冲</p>
-                </div>
-              </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom"></div>
-              </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom"></div>
-              </div>
-            </i-col>
-          </Row>
+            </div>
+          </div>
         </div>
 
-        <div class="results-line">
-          <Row :gutter="32">
-            <i-col span="4">
-              <!-- 单个文献 -->
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom"></div>
-              </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom"></div>
-              </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom"></div>
-              </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom"></div>
-              </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom"></div>
-              </div>
-            </i-col>
-            <i-col span="4">
-              <div class="literature-item">
-                <div class="front-top">
-                  <div class="collection">
-                    <img src="../assets/star.png" alt="collection" />
-                  </div>
-                </div>
-                <div class="front-bottom"></div>
-              </div>
-            </i-col>
-          </Row>
-        </div>
 
         <!-- 分页 -->
         <div class="page-bar">
@@ -386,12 +261,22 @@ export default {
 }
 
 // 搜索结果区域
-.results-line {
-  margin-bottom: 20px;
+.literature-content {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding-bottom: 40px;
+}
+
+.literature-content::after {
+  content: "";
+  flex: 1;
 }
 
 .literature-item {
   height: 250px;
+  width: 180px;
+  margin: 10px;
   text-align: center;
   border-radius: 4px;
 
@@ -402,6 +287,7 @@ export default {
   .front {
     height: 100%;
     border: 1px solid #eee;
+    border-radius: 4px;
     box-shadow: rgba(39, 39, 39, 0.08) 3px 3px 5px;
   }
 
