@@ -262,21 +262,24 @@ export default {
 
 // 搜索结果区域
 .literature-content {
-  display: flex;
-  flex-flow: row wrap;
+  // display: flex;
+  // flex-flow: row wrap;
+  display: grid;
   justify-content: space-between;
+  grid-template-columns: repeat(auto-fill, 180px);
+  grid-gap: 10px;
   padding-bottom: 40px;
 }
 
-.literature-content::after {
-  content: "";
-  flex: 1;
-}
+// .literature-content::after {
+//   content: "";
+//   flex: 1;
+// }
 
 .literature-item {
   height: 250px;
   width: 180px;
-  margin: 10px;
+  margin-bottom: 10px;
   text-align: center;
   border-radius: 4px;
 
