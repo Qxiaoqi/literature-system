@@ -1,44 +1,7 @@
 <template>
   <div class="personal">
-    <Card dis-hover>
-      <p slot="title">
-        <Icon type="md-search"></Icon>
-        搜索文献
-      </p>
-      <div class="condition-bar">
-        <div class="condition-title">分类：</div>
-        <div class="condition-select">
-          <!-- 全选 -->
-          <div class="select-all">
-            <Checkbox
-              :indeterminate="indeterminate"
-              :value="checkAll"
-              @click.prevent.native="handleCheckAll"
-              >全选</Checkbox
-            >
-          </div>
-          <!-- 多选栏 -->
-          <CheckboxGroup
-            v-model="checkAllGroup"
-            @on-change="checkAllGroupChange"
-          >
-            <Checkbox
-              v-for="item in categoryData"
-              :key="item.id"
-              :label="item.id"
-              :style="{
-                paddingBottom: '10px'
-              }"
-              >{{ item.value }}</Checkbox
-            >
-          </CheckboxGroup>
-        </div>
-      </div>
-      <!-- 提交查询条件 -->
-      <div class="submit">
-        <Button type="primary">查询</Button>
-      </div>
-    </Card>
+    <!-- 搜索部分 -->
+    <SearchCard :selectData="categoryData"></SearchCard>
 
     <Card
       dis-hover
@@ -97,17 +60,17 @@
 // @ is an alias to /src
 import { categoryData } from "@/data/category";
 import LiteratureItem from "@/components/literature/LiteratureItem.vue";
+import SearchCard from "@/components/search/SearchCard.vue";
 
 export default {
-  name: "personal",
+  name: "Personal",
   components: {
-    LiteratureItem
+    LiteratureItem,
+    SearchCard
   },
   data() {
     return {
-      indeterminate: true,
-      checkAll: false,
-      checkAllGroup: [1],
+      categoryData: categoryData,
       literatureModel: false,
       literatureModelData: {
         title: null,
@@ -116,7 +79,6 @@ export default {
         time: null,
         category: null
       },
-      categoryData: categoryData,
       literatureData: [
         {
           literatureId: 1001,
@@ -193,51 +155,7 @@ export default {
       ]
     };
   },
-  computed: {
-    // 学科分类 id
-    categoryIdArray() {
-      let res = this.categoryData.map(item => {
-        return item.id;
-      });
-      return res;
-    },
-    // 学科分类 value
-    categoryValueArray() {
-      let res = this.categoryData.map(item => {
-        return item.value;
-      });
-      return res;
-    }
-  },
   methods: {
-    handleCheckAll() {
-      // console.log(categoryData);
-      console.log(this.categoryValueArray);
-      if (this.indeterminate) {
-        this.checkAll = false;
-      } else {
-        this.checkAll = !this.checkAll;
-      }
-      this.indeterminate = false;
-
-      if (this.checkAll) {
-        this.checkAllGroup = this.categoryIdArray;
-      } else {
-        this.checkAllGroup = [];
-      }
-    },
-    checkAllGroupChange(data) {
-      if (data.length === 22) {
-        this.indeterminate = false;
-        this.checkAll = true;
-      } else if (data.length > 0) {
-        this.indeterminate = true;
-        this.checkAll = false;
-      } else {
-        this.indeterminate = false;
-        this.checkAll = false;
-      }
-    },
     modelClick(index) {
       // console.log(this.literatureData[index]);
       let data = this.literatureData[index];
@@ -256,31 +174,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.condition-bar {
-  padding: 0 20px 20px 20px;
-  // padding-bottom: 20px;
-}
-
-.condition-title {
-  width: 50px;
-  display: table-cell;
-}
-
-.condition-select {
-  display: table-cell;
-  padding-left: 20px;
-}
-
-.select-all {
-  border-bottom: 1px solid #e9e9e9;
-  padding-bottom: 6px;
-  margin-bottom: 6px;
-}
-
-.submit {
-  text-align: center;
-}
-
 // 搜索结果区域
 .literature-content {
   // display: flex;
@@ -291,125 +184,6 @@ export default {
   grid-gap: 10px;
   padding-bottom: 40px;
 }
-
-// .literature-content::after {
-//   content: "";
-//   flex: 1;
-// }
-
-// .literature-item {
-//   height: 250px;
-//   width: 180px;
-//   margin-bottom: 10px;
-//   text-align: center;
-//   border-radius: 4px;
-
-//   .flip {
-//     height: 100%;
-//   }
-
-//   .front {
-//     height: 100%;
-//     border: 1px solid #eee;
-//     border-radius: 4px;
-//     box-shadow: rgba(39, 39, 39, 0.08) 3px 3px 5px;
-//   }
-
-//   .back {
-//     width: 100%;
-//     height: 100%;
-//     // background-color: #2b85e4;
-//     background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);
-//     border-radius: 4px;
-//     border: 1px solid #eee;
-//     box-shadow: rgba(39, 39, 39, 0.08) 3px 3px 5px;
-
-//     ul {
-//       display: flex;
-//       flex-flow: column nowrap;
-//       justify-content: space-between;
-//       height: 100%;
-//       padding: 70px 0;
-//       font-size: 18px;
-//     }
-//     .back-item {
-//       color: #fff;
-//       list-style: none;
-//       cursor: pointer;
-//     }
-//   }
-
-//   .front-top {
-//     position: relative;
-//     height: 100px;
-//     background-color: #2b85e4;
-//     // background-image: linear-gradient( 135deg, #6B73FF 10%, #000DFF 100%);
-//     // background-image: linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%);
-//     border-top-left-radius: 4px;
-//     border-top-right-radius: 4px;
-
-//     .collection {
-//       position: absolute;
-//       right: 20px;
-//       bottom: -25px;
-//       height: 50px;
-//       width: 50px;
-//       border-radius: 50%;
-//       background-color: #c5c8ce;
-//       box-shadow: rgba(41, 41, 41, 0.1) 1px 1px 3px;
-
-//       img {
-//         position: absolute;
-//         top: 50%;
-//         left: 50%;
-//         margin-top: -13px;
-//         margin-left: -13px;
-//         height: 26px;
-//       }
-//     }
-
-//     .collection-star {
-//       background-color: rgb(255, 209, 59);
-//     }
-//   }
-
-//   .front-bottom {
-//     padding: 30px 10px 20px;
-//     font-weight: 700;
-//   }
-// }
-
-// // 翻转效果
-// .literature-item {
-//   perspective: 1000;
-//   transform-style: preserve-3d;
-// }
-
-// .flip {
-//   position: relative;
-//   transition: 0.6s;
-//   transform-style: preserve-3d;
-// }
-
-// .front,
-// .back {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   backface-visibility: hidden;
-// }
-
-// .front {
-//   z-index: 2;
-// }
-
-// .back {
-//   transform: rotateY(-180deg);
-// }
-
-// .literature-item:hover .flip {
-//   transform: rotateY(180deg);
-// }
 
 // 分页
 .page-bar {

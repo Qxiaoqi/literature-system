@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Personal from "../views/Personal.vue";
 import Public from "../views/Public.vue";
+import Task from "../views/Task.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/public",
     name: "public",
     component: Public
+  },
+  {
+    path: "/task",
+    name: "task",
+    component: Task
   }
   // {
   //   path: "/about",
