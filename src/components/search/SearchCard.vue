@@ -2,7 +2,7 @@
   <Card dis-hover>
     <p slot="title">
       <Icon type="md-search"></Icon>
-      搜索文献
+      {{ title }}
     </p>
     <div class="condition-bar">
       <div class="condition-title">分类：</div>
@@ -41,7 +41,8 @@
 export default {
   name: "SearchCard",
   props: {
-    selectData: Array
+    selectData: Array,
+    title: String
   },
   data() {
     return {

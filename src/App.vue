@@ -17,9 +17,9 @@
           v-model="isCollapsed"
         >
           <Menu
-            active-name="personal"
             theme="dark"
             width="auto"
+            :active-name="$route.name"
             :class="menuitemClasses"
           >
             <MenuItem name="personal" to="/personal">

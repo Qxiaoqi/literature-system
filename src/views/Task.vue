@@ -1,6 +1,60 @@
 <template>
-  <!-- 搜索区域 -->
-  <SearchCard :selectData="studentsData"></SearchCard>
+  <div class="task">
+    <!-- 搜索区域 -->
+    <SearchCard :selectData="studentsData" title="搜索任务"></SearchCard>
+
+    <!-- 任务结果区域 -->
+    <Card
+      dis-hover
+      :style="{
+        margin: '20px 0'
+      }"
+    >
+      <p slot="title">
+        <Icon type="md-book"></Icon>
+        任务列表
+      </p>
+      <!-- <Button type="primary" slot="extra" size="small">上传文献</Button> -->
+      <div class="results-content">
+        <List>
+          <ListItem>
+            <ListItemMeta
+              avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar"
+              title="任务一"
+              description="发布时间：2019.12.12   截止时间：2019.12.29" />
+            <template slot="action">
+              <li>
+                <a href="" @click.prevent="taskDetail">详情</a>
+              </li>
+              <li>
+                <a href="">删除</a>
+              </li>
+            </template>
+          </ListItem>
+          <ListItem>
+            <ListItemMeta
+              avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar"
+              title="任务一"
+              description="发布时间：2019.12.12   截止时间：2019.12.29" />
+            <template slot="action">
+              <li>
+                <a href="" @click.prevent="taskDetail">详情</a>
+              </li>
+              <li>
+                <a href="">删除</a>
+              </li>
+            </template>
+          </ListItem>
+        </List>
+
+        <!-- 分页 -->
+        <div class="page-bar">
+          <Page :total="100" show-total />
+        </div>
+
+      </div>
+    </Card>
+  </div>
 </template>
 
 <script>
@@ -45,6 +99,21 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    taskDetail() {
+      this.$router.push({
+        path: "/task/detail"
+      })
+    }
   }
 };
 </script>
+
+<style lang="less" scoped>
+// 分页
+.page-bar {
+  padding: 0 0 40px 30%;
+}
+</style>
+

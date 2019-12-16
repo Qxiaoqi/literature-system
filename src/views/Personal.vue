@@ -1,7 +1,7 @@
 <template>
   <div class="personal">
     <!-- 搜索部分 -->
-    <SearchCard :selectData="categoryData"></SearchCard>
+    <SearchCard :selectData="categoryData" title="搜索文献"></SearchCard>
 
     <Card
       dis-hover
@@ -14,44 +14,72 @@
         文献列表
       </p>
       <!-- <Button type="primary" slot="extra" size="small">上传文献</Button> -->
-      <div class="results-content">
-        <div class="literature-content">
-          <!-- 单个文献组件 -->
-          <LiteratureItem
-            v-for="(literature, index) in literatureData"
-            :key="literature.literatureId"
-            :literature="literature"
-            :index="index"
-            @model-click="modelClick"
-          ></LiteratureItem>
-        </div>
+      <Tabs value="personal">
+        <TabPane label="个人收藏" name="personal">
+          <!-- 个人结果栏 -->
+          <div class="results-content">
+            <div class="literature-content">
+              <!-- 单个文献组件 -->
+              <LiteratureItem
+                v-for="(literature, index) in literatureData"
+                :key="literature.literatureId"
+                :literature="literature"
+                :index="index"
+                @model-click="modelClick"
+              ></LiteratureItem>
+            </div>
 
-        <!-- 分页 -->
-        <div class="page-bar">
-          <Page :total="100" show-total />
-        </div>
+            <!-- 分页 -->
+            <div class="page-bar">
+              <Page :total="100" show-total />
+            </div>
 
-        <!-- 文献详情页弹窗 -->
-        <Modal v-model="literatureModel" title="文献详情" footer-hide>
-          <ul class="literature-model">
-            <li>
-              标题：<span>{{ literatureModelData.title }}</span>
-            </li>
-            <li>
-              作者：<span>{{ literatureModelData.author }}</span>
-            </li>
-            <li>
-              来源：<span>{{ literatureModelData.source }}</span>
-            </li>
-            <li>
-              发表时间：<span>{{ literatureModelData.time }}</span>
-            </li>
-            <li>
-              分类：<span>{{ literatureModelData.category }}</span>
-            </li>
-          </ul>
-        </Modal>
-      </div>
+            <!-- 文献详情页弹窗 -->
+            <Modal v-model="literatureModel" title="文献详情" footer-hide>
+              <ul class="literature-model">
+                <li>
+                  标题：<span>{{ literatureModelData.title }}</span>
+                </li>
+                <li>
+                  作者：<span>{{ literatureModelData.author }}</span>
+                </li>
+                <li>
+                  来源：<span>{{ literatureModelData.source }}</span>
+                </li>
+                <li>
+                  发表时间：<span>{{ literatureModelData.time }}</span>
+                </li>
+                <li>
+                  分类：<span>{{ literatureModelData.category }}</span>
+                </li>
+              </ul>
+            </Modal>
+          </div>
+        </TabPane>
+        <TabPane label="导师推送" name="teacher">标签二的内容</TabPane>
+        <TabPane label="系统推荐" name="system">标签三的内容</TabPane>
+      </Tabs>
+
+      <!-- 文献详情页弹窗 -->
+      <Modal v-model="literatureModel" title="文献详情" footer-hide>
+        <ul class="literature-model">
+          <li>
+            标题：<span>{{ literatureModelData.title }}</span>
+          </li>
+          <li>
+            作者：<span>{{ literatureModelData.author }}</span>
+          </li>
+          <li>
+            来源：<span>{{ literatureModelData.source }}</span>
+          </li>
+          <li>
+            发表时间：<span>{{ literatureModelData.time }}</span>
+          </li>
+          <li>
+            分类：<span>{{ literatureModelData.category }}</span>
+          </li>
+        </ul>
+      </Modal>
     </Card>
   </div>
 </template>
