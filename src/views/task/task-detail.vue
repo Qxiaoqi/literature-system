@@ -22,7 +22,7 @@
             </div>
 
             <!-- 文献介绍 -->
-            <ul class="literature-list">
+            <ul class="literature-introduce">
               <li>
                 标题：<span>{{ literature.title }}</span>
               </li>
@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import LiteratureItem from "@/components/literature/LiteratureItem.vue";
+import LiteratureItem from "@/components/Literature/LiteratureItem.vue";
 import E from "wangeditor";
 
 export default {
@@ -207,7 +207,7 @@ export default {
   display: inline-block;
 }
 
-.literature-list {
+.literature-introduce {
   display: inline-block;
   vertical-align: top;
   padding-left: 40px;

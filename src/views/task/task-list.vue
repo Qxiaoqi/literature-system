@@ -14,7 +14,7 @@
         <Icon type="md-book"></Icon>
         任务列表
       </p>
-      <!-- <Button type="primary" slot="extra" size="small">上传文献</Button> -->
+      <!-- <Button type="primary" slot="extra" size="small" @click.prevent="taskRelease">发布任务</Button> -->
       <div class="results-content">
         <List>
           <ListItem>
@@ -51,14 +51,13 @@
         <div class="page-bar">
           <Page :total="100" show-total />
         </div>
-
       </div>
     </Card>
   </div>
 </template>
 
 <script>
-import SearchCard from "@/components/search/SearchCard.vue";
+import SearchCard from "@/components/Search/SearchCard.vue";
 
 export default {
   name: "Task",
@@ -104,7 +103,7 @@ export default {
     taskDetail() {
       this.$router.push({
         path: "/task/detail"
-      })
+      });
     }
   }
 };
@@ -116,4 +115,3 @@ export default {
   padding: 0 0 40px 30%;
 }
 </style>
-

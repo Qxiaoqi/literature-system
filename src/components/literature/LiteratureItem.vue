@@ -22,6 +22,7 @@
       <div class="back">
         <ul>
           <li class="back-item" @click="$emit('model-click', index)">详情</li>
+          <li class="back-item" @click="$emit('release-click', index)">布置</li>
           <li class="back-item">下载</li>
           <li class="back-item">移除</li>
         </ul>
@@ -73,7 +74,7 @@ export default {
       flex-flow: column nowrap;
       justify-content: space-between;
       height: 100%;
-      padding: 70px 0;
+      padding: 50px 0;
       font-size: 18px;
     }
     .back-item {
