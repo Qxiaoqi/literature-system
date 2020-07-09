@@ -1,24 +1,7 @@
-# project
+## literature-system
 
-## Project setup
-```
-npm install
-```
+很水的毕业设计，文献指导过程管理系统
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### 技术栈
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Vue + NodeJS + MongoDB
