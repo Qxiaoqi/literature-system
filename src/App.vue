@@ -5,7 +5,7 @@
 </template>
 
 <script>
-// import "./lib/getUser";
+// import "./utils/getUser";
 
 export default {
   name: "App"
@@ -13,10 +13,12 @@ export default {
 </script>
 
 <style lang="less">
+@font-color: #2c3e50;
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: @font-color;
 }
 </style>

@@ -8,8 +8,10 @@ import Public from "../views/public/index.vue";
 import TaskList from "../views/task/task-list.vue";
 import TaskDetail from "../views/task/task-detail.vue";
 import TaskRelease from "../views/task/task-release.vue";
+import Information from "../views/information/index.vue";
+import Statistics from "../views/statistics/index.vue";
 
-// import { getLogin } from "../lib/getLogin";
+// import { isLogin } from "@/utils/getUser";
 
 Vue.use(VueRouter);
 
@@ -84,11 +86,22 @@ const routes = [
     path: "/information",
     component: Layout,
     children: [
-      // {
-      //   path: "release",
-      //   name: "taskRelease",
-      //   component: TaskRelease
-      // }
+      {
+        path: "index",
+        name: "information",
+        component: Information
+      }
+    ]
+  },
+  {
+    path: "/statistics",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        name: "statistics",
+        component: Statistics
+      }
     ]
   }
   // {
@@ -102,17 +115,22 @@ const routes = [
   // }
 ];
 
-// router.beforeEach((to, from, next) => {
-//   if (!getLogin) {
-//     // 未登录
-
-//   }
-// });
-
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
 });
+
+// router.beforeEach((to, from, next) => {
+//   console.log("to:", to);
+//   console.log("from:", from);
+//   if (to.name === "login") {
+//     if (from.name !== "login") {
+//       next();
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

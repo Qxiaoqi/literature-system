@@ -33,6 +33,10 @@
             <Icon type="md-list-box"></Icon>
             <span>任务列表</span>
           </MenuItem>
+          <MenuItem v-if="$store.state.user.role === 'admin'" name="statistics" to="/statistics/index">
+            <Icon type="md-podium"></Icon>
+            <span>图表统计</span>
+          </MenuItem>
           <MenuItem name="information" to="/information/index">
             <Icon type="md-person"></Icon>
             <span>个人信息</span>
@@ -62,9 +66,16 @@
             type="md-menu"
             size="24"
           ></Icon>
-          <span class="login-button">
-            <Button type="primary" @click="exitLogin">退出登录</Button>
-          </span>
+          <div class="user-button">
+            <Dropdown placement="bottom-end" @on-click="userClick">
+              <span class="user-name">{{ userInfo.name }}，您好</span>
+              <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
+              <DropdownMenu slot="list">
+                <DropdownItem name="exit">退出登录</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <!-- <Button type="primary" @click="exitLogin">退出登录</Button> -->
+          </div>
         </Header>
         <Content
           :style="{
@@ -74,7 +85,7 @@
         >
           <Breadcrumb :style="{ margin: '16px 0' }">
             <BreadcrumbItem>主页</BreadcrumbItem>
-            <BreadcrumbItem>个人文献</BreadcrumbItem>
+            <BreadcrumbItem>{{ pageName }}</BreadcrumbItem>
             <!-- <BreadcrumbItem>Layout</BreadcrumbItem> -->
           </Breadcrumb>
           <div style="min-height: 600px">
@@ -90,18 +101,61 @@
 import "@/styles/common.less";
 
 export default {
+  created() {
+    console.log(this.$store.state.user.name);
+    if (!this.$store.state.user.name) {
+      // 两种情况，一种是 cookie未过期，但是 vuex中已经没有数据了（退出后又进入）
+      // 第二种情况是 cookie已经过期，这个时候要跳转到登录页
+      // 总之都要请求后端获取用户信息
+      this.$api.user.getUserInfo()
+        .then(res => {
+          let data = res.data;
+          if (data && data.code === 0) {
+            // 获取成功
+            console.log(data.data);
+            // 提交用户信息
+            this.$store.dispatch("getUserInfo", data.data);
+          } else {
+            console.log("没能获取用户信息");
+            // 跳转到登录页
+            // this.$Message.info(data.msg);
+            // this.$router.push({
+            //   name: "login"
+            // })
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
+  },
   data() {
     return {
       isCollapsed: false,
-      leftMargin: 240
+      leftMargin: 240,
+      userInfo: this.$store.state.user
     };
   },
   computed: {
     rotateIcon() {
       return ["menu-icon", this.isCollapsed ? "rotate-icon" : ""];
     },
+
     menuitemClasses() {
       return ["menu-item", this.isCollapsed ? "collapsed-menu" : ""];
+    },
+
+    pageName() {
+      const pageNameStr = {
+        personal: "个人文献库",
+        public: "公共文献库",
+        taskList: "任务列表",
+        taskRelease: "任务发布",
+        taskDetail: "任务详情",
+        information: "个人信息",
+        statistics: "图表统计"
+      }
+      return pageNameStr[this.$route.name] || this.$route.name;
     }
   },
   methods: {
@@ -112,13 +166,17 @@ export default {
         : (this.leftMargin = 240);
       // this.leftMargin = 100;
     },
-    exitLogin() {
-      // 从sessionStorage删除保存的数据
-      // sessionStorage.removeItem("userStatus");
+    userClick(name) {
+      console.log("点击退出:", name);
       this.$Message.info("请重新登录");
-      // this.$router.push({
-      //   path: "/login"
-      // });
+      switch(name) {
+        case "exit":
+          this.$router.push({
+            name: "login"
+          });
+          break;
+      }
+
     }
   }
 };
@@ -183,8 +241,18 @@ export default {
   font-size: 22px;
 }
 
-.login-button {
+.user-name {
+  padding-right: 10px;
+  vertical-align: -2px;
+}
+
+.user-button {
   float: right;
-  margin-right: 30px;
+  margin-right: 60px;
+  padding: 0 20px;
+
+  &:hover {
+    background-color: #f3f3f3;
+  }
 }
 </style>

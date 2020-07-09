@@ -10,6 +10,7 @@
         <!-- 全选 -->
         <div class="select-all">
           <Checkbox
+            :disabled="type === 'task'"
             :indeterminate="indeterminate"
             :value="checkAll"
             @click.prevent.native="handleCheckAll"
@@ -25,6 +26,7 @@
             :style="{
               paddingBottom: '10px'
             }"
+            :disabled="type === 'task'"
             >{{ item.value }}</Checkbox
           >
         </CheckboxGroup>
@@ -32,7 +34,7 @@
     </div>
     <!-- 提交查询条件 -->
     <div class="submit">
-      <Button type="primary">查询</Button>
+      <Button type="primary" @click="search" :disabled="type === 'task'">查询</Button>
     </div>
   </Card>
 </template>
@@ -42,7 +44,11 @@ export default {
   name: "SearchCard",
   props: {
     selectData: Array,
-    title: String
+    title: String,
+    type: {
+      type: String,
+      default: "other"
+    }
   },
   data() {
     return {
@@ -70,7 +76,7 @@ export default {
   methods: {
     handleCheckAll() {
       // console.log(selectData);
-      console.log(this.selectValueArray);
+      // console.log(this.selectValueArray);
       if (this.indeterminate) {
         this.checkAll = false;
       } else {
@@ -84,6 +90,7 @@ export default {
         this.checkAllGroup = [];
       }
     },
+
     checkAllGroupChange(data) {
       if (data.length === this.selectData.length) {
         this.indeterminate = false;
@@ -95,12 +102,20 @@ export default {
         this.indeterminate = false;
         this.checkAll = false;
       }
+    },
+
+    search() {
+      const { checkAllGroup } = this;
+      // console.log(checkAllGroup);
+      this.$emit("search", checkAllGroup);
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+@border-color: #e9e9e9;
+
 .condition-bar {
   padding: 0 20px 20px 20px;
   // padding-bottom: 20px;
@@ -117,7 +132,7 @@ export default {
 }
 
 .select-all {
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: 1px solid @border-color;
   padding-bottom: 6px;
   margin-bottom: 6px;
 }
